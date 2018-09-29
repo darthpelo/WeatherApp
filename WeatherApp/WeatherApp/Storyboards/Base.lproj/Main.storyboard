@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MainViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -65,6 +65,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="YOi-1I-ofc"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="4oI-Jz-Vel"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -79,9 +83,14 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="URn-c4-NoJ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="W7o-xv-dh1"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="W7o-xv-dh1">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="BYZ-38-t0r" id="li4-Eb-URf"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="RIo-to-LEV" id="QDI-ph-hDd"/>
                         <segue destination="Tv9-Vz-qiz" kind="show" identifier="ShowCityDetail" id="UpG-Er-0fK"/>
                     </connections>
                 </viewController>

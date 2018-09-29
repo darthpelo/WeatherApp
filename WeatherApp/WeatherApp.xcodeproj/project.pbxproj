@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		72122D4EC623EA99CFE5ABDB /* libPods-WeatherApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DC08C5E70C8942C0EA06A4 /* libPods-WeatherApp.a */; };
 		D9D305DE215E551200DE5FFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D305DD215E551200DE5FFB /* AppDelegate.swift */; };
-		D9D305E0215E551200DE5FFB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D305DF215E551200DE5FFB /* ViewController.swift */; };
 		D9D305E3215E551200DE5FFB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9D305E1215E551200DE5FFB /* Main.storyboard */; };
 		D9D305E5215E551600DE5FFB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9D305E4215E551600DE5FFB /* Assets.xcassets */; };
 		D9D305E8215E551600DE5FFB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9D305E6215E551600DE5FFB /* LaunchScreen.storyboard */; };
-		D9D305F3215E551600DE5FFB /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D305F2215E551600DE5FFB /* WeatherAppTests.swift */; };
+		D9D305F3215E551600DE5FFB /* MainPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D305F2215E551600DE5FFB /* MainPresenterTests.swift */; };
+		D9EBCA9C215F91C00087AF93 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EBCA9B215F91C00087AF93 /* MainViewController.swift */; };
+		D9EBCA9F215FD2A40087AF93 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EBCA9E215FD2A40087AF93 /* MainPresenter.swift */; };
+		D9EBCAA2215FD7A00087AF93 /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EBCAA1215FD7A00087AF93 /* TableViewDataSource.swift */; };
+		D9EBCAA5215FD8F70087AF93 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EBCAA4215FD8F70087AF93 /* UserDefaults.swift */; };
+		D9EBCAA8215FDA410087AF93 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9EBCAA7215FDA410087AF93 /* UserDefaultsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,14 +35,18 @@
 		71DC08C5E70C8942C0EA06A4 /* libPods-WeatherApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D305DA215E551200DE5FFB /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9D305DD215E551200DE5FFB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D9D305DF215E551200DE5FFB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D9D305E2215E551200DE5FFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D9D305E4215E551600DE5FFB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9D305E7215E551600DE5FFB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9D305E9215E551600DE5FFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9D305EE215E551600DE5FFB /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9D305F2215E551600DE5FFB /* WeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppTests.swift; sourceTree = "<group>"; };
+		D9D305F2215E551600DE5FFB /* MainPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenterTests.swift; sourceTree = "<group>"; };
 		D9D305F4215E551600DE5FFB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9EBCA9B215F91C00087AF93 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		D9EBCA9E215FD2A40087AF93 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
+		D9EBCAA1215FD7A00087AF93 /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		D9EBCAA4215FD8F70087AF93 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		D9EBCAA7215FDA410087AF93 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
 		F9CD8323DC3D24F1B34F5582 /* Pods-WeatherApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -93,11 +101,13 @@
 		D9D305DC215E551200DE5FFB /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				D9D305DD215E551200DE5FFB /* AppDelegate.swift */,
-				D9D305DF215E551200DE5FFB /* ViewController.swift */,
-				D9D305FD215ED9B900DE5FFB /* Storyboards */,
-				D9D305E4215E551600DE5FFB /* Assets.xcassets */,
 				D9D305E9215E551600DE5FFB /* Info.plist */,
+				D9D305DD215E551200DE5FFB /* AppDelegate.swift */,
+				D9D305E4215E551600DE5FFB /* Assets.xcassets */,
+				D9EBCAA3215FD8EB0087AF93 /* Extensions */,
+				D9D305FE215F90AD00DE5FFB /* Scenes */,
+				D9EBCAA0215FD7900087AF93 /* Services */,
+				D9D305FD215ED9B900DE5FFB /* Storyboards */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -105,8 +115,9 @@
 		D9D305F1215E551600DE5FFB /* WeatherAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				D9D305F2215E551600DE5FFB /* WeatherAppTests.swift */,
 				D9D305F4215E551600DE5FFB /* Info.plist */,
+				D9D305F2215E551600DE5FFB /* MainPresenterTests.swift */,
+				D9EBCAA7215FDA410087AF93 /* UserDefaultsTests.swift */,
 			);
 			path = WeatherAppTests;
 			sourceTree = "<group>";
@@ -118,6 +129,31 @@
 				D9D305E6215E551600DE5FFB /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		D9D305FE215F90AD00DE5FFB /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				D9EBCA9B215F91C00087AF93 /* MainViewController.swift */,
+				D9EBCA9E215FD2A40087AF93 /* MainPresenter.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		D9EBCAA0215FD7900087AF93 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D9EBCAA1215FD7A00087AF93 /* TableViewDataSource.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D9EBCAA3215FD8EB0087AF93 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D9EBCAA4215FD8F70087AF93 /* UserDefaults.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		F49A8495A933B1AB2BE5B63F /* Frameworks */ = {
@@ -140,6 +176,7 @@
 				D9D305D7215E551200DE5FFB /* Frameworks */,
 				D9D305D8215E551200DE5FFB /* Resources */,
 				0D56F114ED8FD16237681447 /* [CP] Copy Pods Resources */,
+				D9EBCAA9215FE0AC0087AF93 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -271,6 +308,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		D9EBCAA9215FE0AC0087AF93 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -278,8 +333,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9D305E0215E551200DE5FFB /* ViewController.swift in Sources */,
 				D9D305DE215E551200DE5FFB /* AppDelegate.swift in Sources */,
+				D9EBCAA5215FD8F70087AF93 /* UserDefaults.swift in Sources */,
+				D9EBCA9F215FD2A40087AF93 /* MainPresenter.swift in Sources */,
+				D9EBCAA2215FD7A00087AF93 /* TableViewDataSource.swift in Sources */,
+				D9EBCA9C215F91C00087AF93 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +345,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9D305F3215E551600DE5FFB /* WeatherAppTests.swift in Sources */,
+				D9EBCAA8215FDA410087AF93 /* UserDefaultsTests.swift in Sources */,
+				D9D305F3215E551600DE5FFB /* MainPresenterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +502,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GK5S624D99;
+				DEVELOPMENT_TEAM = 6NX9CC2PVJ;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -462,7 +521,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GK5S624D99;
+				DEVELOPMENT_TEAM = 6NX9CC2PVJ;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
