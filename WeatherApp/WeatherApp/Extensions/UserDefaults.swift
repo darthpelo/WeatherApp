@@ -9,8 +9,8 @@
 import Foundation
 
 extension UserDefaults {
-    var searchHistory: Any? {
-        get { return object(forKey: #function) }
+    var searchHistory: Data? {
+        get { return data(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 }
