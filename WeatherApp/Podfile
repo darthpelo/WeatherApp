@@ -4,4 +4,6 @@ platform :ios, '12.0'
 
 target 'WeatherApp' do
   pod 'GooglePlaces'
+  pod 'Moya', '~> 11.0'
+  pod 'Unbox'
 end

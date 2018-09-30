@@ -13,10 +13,10 @@ class MainViewController: UIViewController {
     
     lazy var presenter: MainPresentable = MainPresenter(view: self)
     
-    private var dataSource: TableViewDataSource<String>?
+    private var dataSource: TableViewDataSource<CityWeatherLight>?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         presenter.setupView()
     }
@@ -25,14 +25,18 @@ class MainViewController: UIViewController {
         presenter.loadCitySearch()
     }
     
-    private func citiesDidLoad(_ cities: [String]) {
+    private func citiesDidLoad(_ cities: [CityWeatherLight]) {
         dataSource = .make(for: cities)
         tableView.dataSource = dataSource
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
     }
 }
 
 extension MainViewController: MainViewable {
-    func setDataSource(_ cities: [String]) {
+    func setDataSource(_ cities: [CityWeatherLight]) {
         citiesDidLoad(cities)
     }
     

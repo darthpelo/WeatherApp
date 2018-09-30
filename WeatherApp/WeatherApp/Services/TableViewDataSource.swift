@@ -62,14 +62,15 @@ final class TableViewDataSource<Model>: NSObject, UITableViewDataSource {
     }
 }
 
-extension TableViewDataSource where Model == String {
-    static func make(for cities: [String],
+extension TableViewDataSource where Model == CityWeatherLight {
+    static func make(for cities: [CityWeatherLight],
                      reuseIdentifier: String = "CityCell") -> TableViewDataSource {
         return TableViewDataSource(
             models: cities,
             reuseIdentifier: reuseIdentifier
         ) { city, cell in
-            cell.textLabel?.text = city
+            cell.textLabel?.text = city.name
+            cell.detailTextLabel?.text = "\(city.todayTemperature)"
         }
     }
 }
