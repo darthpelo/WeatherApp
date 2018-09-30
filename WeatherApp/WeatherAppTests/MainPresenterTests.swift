@@ -29,6 +29,23 @@ class WeatherAppTests: XCTestCase {
         
         XCTAssertEqual(mockView.presentAutocompleteControllerCallCount, 1)
     }
+    
+    func testDeleteCity() {
+        let mockView = MockMainViewController()
+        let mockUserDefaults = UserDefaults.init(suiteName: "test")!
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23.5)
+        
+        let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
+        
+        mockUserDefaults.searchHistory = sut.convertToData([stubCity])
+        
+        sut.removeCity(at: 0)
+        
+        let result = sut.convertToCities(mockUserDefaults.searchHistory!)
+        
+        XCTAssertEqual(result!.count, 0)
+    }
+
 }
 
 final class MockMainViewController: UIViewController, MainViewable {

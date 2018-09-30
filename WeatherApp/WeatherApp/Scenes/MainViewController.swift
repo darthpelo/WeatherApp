@@ -28,6 +28,8 @@ class MainViewController: UIViewController {
     private func citiesDidLoad(_ cities: [CityWeatherLight]) {
         dataSource = .make(for: cities)
         tableView.dataSource = dataSource
+        dataSource?.delegate = self
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.tableView.reloadData()
@@ -46,5 +48,11 @@ extension MainViewController: MainViewable {
     
     func dismiss() {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: RowUpdateProtocol {
+    func removeModel(at: Int) {
+        presenter.removeCity(at: at)
     }
 }

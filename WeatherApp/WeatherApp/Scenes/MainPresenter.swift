@@ -13,6 +13,7 @@ import Unbox
 protocol MainPresentable: class {
     func setupView()
     func loadCitySearch()
+    func removeCity(at index: Int)
 }
 
 protocol MainViewable: class {
@@ -46,6 +47,17 @@ final class MainPresenter: NSObject, MainPresentable {
         let autocompleteController = GMSAutocompleteViewController()
         autocompleteController.delegate = self
         view?.presentAutocompleteController(autocompleteController)
+    }
+    
+    func removeCity(at index: Int) {
+        guard let data = userDefaults.searchHistory,
+            let list = convertToCities(data) else {
+                return
+        }
+        
+        var newList = list
+        newList.remove(at: index)
+        userDefaults.searchHistory = convertToData(newList)
     }
     
     private func updateCitiesHistory(name: String) -> [CityWeatherLight] {
@@ -99,12 +111,12 @@ final class MainPresenter: NSObject, MainPresentable {
         }
     }
     
-    private func convertToCities(_ data: Data) -> [CityWeatherLight]? {
+    func convertToCities(_ data: Data) -> [CityWeatherLight]? {
         let decoder = JSONDecoder()
         return try? decoder.decode([CityWeatherLight].self, from: data)
     }
     
-    private func convertToData<T: Equatable&Codable>(_ list: [T]) -> Data? {
+    func convertToData<T: Equatable&Codable>(_ list: [T]) -> Data? {
         let encoder = JSONEncoder()
         return try? encoder.encode(list)
     }
