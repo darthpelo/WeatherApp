@@ -6,4 +6,8 @@ target 'WeatherApp' do
   pod 'GooglePlaces'
   pod 'Moya', '~> 11.0'
   pod 'Unbox'
+
+  target 'WeatherAppTests' do
+    pod 'Moya', '~> 11.0'
+  end
 end

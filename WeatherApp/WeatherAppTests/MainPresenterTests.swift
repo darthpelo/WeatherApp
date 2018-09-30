@@ -32,9 +32,7 @@ class WeatherAppTests: XCTestCase {
 }
 
 final class MockMainViewController: UIViewController, MainViewable {
-    func setDataSource(_ cities: [String]) {
-        
-    }
+    func setDataSource(_ cities: [CityWeatherLight]) {}
     
     var presentAutocompleteControllerCallCount = 0
     func presentAutocompleteController(_ autocompleteController: UIViewController) {

@@ -98,6 +98,7 @@ final class MainPresenter: NSObject, MainPresentable {
             idx += 1
         }
     }
+    
     private func convertToCities(_ data: Data) -> [CityWeatherLight]? {
         let decoder = JSONDecoder()
         return try? decoder.decode([CityWeatherLight].self, from: data)

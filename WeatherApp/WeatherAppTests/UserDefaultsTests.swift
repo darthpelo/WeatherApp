@@ -11,6 +11,7 @@ import XCTest
 @testable import WeatherApp
 
 class UserDefaultsTests: XCTestCase {
+    private let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23.5)
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -19,16 +20,24 @@ class UserDefaultsTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    private func convertToCities(_ data: Data) -> [CityWeatherLight]? {
+        let decoder = JSONDecoder()
+        return try? decoder.decode([CityWeatherLight].self, from: data)
+    }
+    
+    private func convertToData<T: Equatable&Codable>(_ list: [T]) -> Data? {
+        let encoder = JSONEncoder()
+        return try? encoder.encode(list)
+    }
+    
     func testSetGet() {
         let sut = UserDefaults(suiteName: "test")
         
-        let list = ["Milan", "Amsterdam", "London"]
+        sut?.searchHistory = convertToData([stubCity])
         
-        sut?.searchHistory = list
-        
-        let getResult = sut?.searchHistory as? [String]
+        let getResult = convertToCities((sut?.searchHistory)!)
         
         XCTAssertNotNil(getResult)
-        XCTAssertEqual(list, getResult!)
+        XCTAssertEqual([stubCity], getResult!)
     }
 }
