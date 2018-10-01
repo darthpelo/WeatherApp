@@ -25,7 +25,16 @@ class MainViewController: UIViewController {
         presenter.loadCitySearch()
     }
     
-    private func citiesDidLoad(_ cities: [CityWeatherLight]) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier, identifier == "ShowCityDetail",
+            let detailVC = segue.destination as? CityDetailViewController,
+            let idx = tableView.indexPathForSelectedRow?.row {
+            detailVC.cityName = presenter.getCityName(at: idx)
+        }
+    }
+    
+    // MARK: - Private
+    internal func citiesDidLoad(_ cities: [CityWeatherLight]) {
         dataSource = .make(for: cities)
         tableView.dataSource = dataSource
         dataSource?.delegate = self
@@ -34,25 +43,5 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             self.tableView.reloadData()
         }
-    }
-}
-
-extension MainViewController: MainViewable {
-    func setDataSource(_ cities: [CityWeatherLight]) {
-        citiesDidLoad(cities)
-    }
-    
-    func presentAutocompleteController(_ autocompleteController: UIViewController) {
-        present(autocompleteController, animated: true, completion: nil)
-    }
-    
-    func dismiss() {
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-extension MainViewController: RowUpdateProtocol {
-    func removeModel(at: Int) {
-        presenter.removeCity(at: at)
     }
 }
