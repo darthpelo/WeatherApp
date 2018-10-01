@@ -32,8 +32,8 @@ class WeatherAppTests: XCTestCase {
     
     func testDeleteCity() {
         let mockView = MockMainViewController()
-        let mockUserDefaults = UserDefaults.init(suiteName: "test")!
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23.5)
+        let mockUserDefaults = UserDefaults(suiteName: "test")!
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
         
         let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
         
@@ -44,6 +44,20 @@ class WeatherAppTests: XCTestCase {
         let result = sut.convertToCities(mockUserDefaults.searchHistory!)
         
         XCTAssertEqual(result!.count, 0)
+    }
+
+    func testGetCityName() {
+        let mockView = MockMainViewController()
+        let mockUserDefaults = UserDefaults(suiteName: "test")!
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
+        
+        let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
+        
+        mockUserDefaults.searchHistory = sut.convertToData([stubCity])
+        
+        let result = sut.getCityName(at: 0)
+        
+        XCTAssertEqual(result, "Milan")
     }
 
 }

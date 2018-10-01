@@ -61,16 +61,3 @@ final class TableViewDataSource<Model>: NSObject, UITableViewDataSource {
         models.removeAll()
     }
 }
-
-extension TableViewDataSource where Model == CityWeatherLight {
-    static func make(for cities: [CityWeatherLight],
-                     reuseIdentifier: String = "CityCell") -> TableViewDataSource {
-        return TableViewDataSource(
-            models: cities,
-            reuseIdentifier: reuseIdentifier
-        ) { city, cell in
-            cell.textLabel?.text = city.name
-            cell.detailTextLabel?.text = "\(city.todayTemperature)"
-        }
-    }
-}

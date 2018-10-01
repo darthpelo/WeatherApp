@@ -11,7 +11,7 @@ import XCTest
 @testable import WeatherApp
 
 class UserDefaultsTests: XCTestCase {
-    private let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23.5)
+    private let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }

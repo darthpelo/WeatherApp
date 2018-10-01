@@ -9,33 +9,41 @@
 import Foundation
 import Unbox
 
-public struct CityWeather {
-    public let id: Int
-    public let name: String
-    public let main: Main
+struct CityWeather {
+    let id: Int
+    let name: String
+    let main: Main
 }
 
 extension CityWeather: Unboxable {
-    public init(unboxer: Unboxer) throws {
+    init(unboxer: Unboxer) throws {
         self.id = try unboxer.unbox(key: "id")
         self.name = try unboxer.unbox(key: "name")
         self.main = try unboxer.unbox(key: "main")
     }
 }
 
-public struct Main {
-    public let temp: Double
+struct Main {
+    let temp: Int
+    let tempMin: Double
+    let tempMax: Double
+    let pressure: Double
+    let humidity: Int
 }
 
 extension Main: Unboxable {
-    public init(unboxer: Unboxer) throws {
+    init(unboxer: Unboxer) throws {
         self.temp = try unboxer.unbox(key: "temp")
+        self.tempMin = try unboxer.unbox(key: "temp_min")
+        self.tempMax = try unboxer.unbox(key: "temp_max")
+        self.pressure = try unboxer.unbox(key: "pressure")
+        self.humidity = try unboxer.unbox(key: "humidity")
     }
 }
 
 struct CityWeatherLight: Codable {
     let name: String
-    let todayTemperature: Double
+    let todayTemperature: Int
 }
 
 extension CityWeatherLight: Equatable {
@@ -43,5 +51,21 @@ extension CityWeatherLight: Equatable {
         return
             lhs.name == rhs.name &&
                 lhs.todayTemperature == rhs.todayTemperature
+    }
+}
+
+struct CityWeatherDetail {
+    let temp: Int
+    let tempMin: Double
+    let tempMax: Double
+    let pressure: Double
+    let humidity: Int
+    
+    init(main: Main) {
+        self.temp = main.temp
+        self.tempMin = main.tempMin
+        self.tempMax = main.tempMax
+        self.pressure = main.pressure
+        self.humidity = main.humidity
     }
 }

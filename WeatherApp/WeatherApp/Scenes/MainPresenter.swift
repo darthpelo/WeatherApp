@@ -7,6 +7,7 @@
 //
 
 import GooglePlaces
+import Foundation
 import Moya
 import Unbox
 
@@ -14,6 +15,7 @@ protocol MainPresentable: class {
     func setupView()
     func loadCitySearch()
     func removeCity(at index: Int)
+    func getCityName(at index: Int) -> String?
 }
 
 protocol MainViewable: class {
@@ -21,8 +23,6 @@ protocol MainViewable: class {
     func presentAutocompleteController(_ autocompleteController: UIViewController)
     func dismiss()
 }
-
-import Foundation
 
 final class MainPresenter: NSObject, MainPresentable {
     weak private var view: MainViewable?
@@ -60,6 +60,26 @@ final class MainPresenter: NSObject, MainPresentable {
         userDefaults.searchHistory = convertToData(newList)
     }
     
+    func getCityName(at index: Int) -> String? {
+        guard let data = userDefaults.searchHistory,
+            let list = convertToCities(data) else {
+                return nil
+        }
+        
+        return list[index].name
+    }
+    
+    func convertToCities(_ data: Data) -> [CityWeatherLight]? {
+        let decoder = JSONDecoder()
+        return try? decoder.decode([CityWeatherLight].self, from: data)
+    }
+    
+    func convertToData<T: Equatable&Codable>(_ list: [T]) -> Data? {
+        let encoder = JSONEncoder()
+        return try? encoder.encode(list)
+    }
+    
+    // MARK: - Private
     private func updateCitiesHistory(name: String) -> [CityWeatherLight] {
         guard let data = userDefaults.searchHistory,
             let list = convertToCities(data) else {
@@ -109,16 +129,6 @@ final class MainPresenter: NSObject, MainPresentable {
             }
             idx += 1
         }
-    }
-    
-    func convertToCities(_ data: Data) -> [CityWeatherLight]? {
-        let decoder = JSONDecoder()
-        return try? decoder.decode([CityWeatherLight].self, from: data)
-    }
-    
-    func convertToData<T: Equatable&Codable>(_ list: [T]) -> Data? {
-        let encoder = JSONEncoder()
-        return try? encoder.encode(list)
     }
 }
 
