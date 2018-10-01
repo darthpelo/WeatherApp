@@ -20,15 +20,15 @@ protocol CityDetailView: class {
 
 final class CityDetailPresenter: NSObject, CityDetailPresentable {
     weak private var view: CityDetailView?
-    private var openWeatherProvider: MoyaProvider<OpenWeather>?
+    private var provider: MoyaProvider<OpenWeather>
     
-    init(view: CityDetailView, openWeatherProvider: MoyaProvider<OpenWeather> = openWeather) {
+    init(view: CityDetailView, provider: MoyaProvider<OpenWeather> = openWeather) {
         self.view = view
-        self.openWeatherProvider = openWeatherProvider
+        self.provider = provider
     }
     
     func setupUI(withCity city: String) {
-        openWeatherProvider?.request(.forecast(city: city)) { [weak self] result in
+        provider.request(.forecast(city: city)) { [weak self] result in
             guard let self = self else { return }
             
             switch result {

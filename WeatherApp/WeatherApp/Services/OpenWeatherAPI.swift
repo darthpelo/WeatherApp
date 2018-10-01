@@ -37,7 +37,20 @@ extension OpenWeather: TargetType {
     }
     
     public var sampleData: Data {
-        return "Half measures are as bad as nothing at all.".data(using: String.Encoding.utf8)! // swiftlint:disable:this force_unwrapping
+        switch self {
+        case .weather:
+            guard let url = Bundle.main.url(forResource: "weatherStub", withExtension: "json"),
+                let data = try? Data(contentsOf: url) else {
+                    return Data()
+            }
+            return data
+        case .forecast:
+            guard let url = Bundle.main.url(forResource: "forecastStub", withExtension: "json"),
+                let data = try? Data(contentsOf: url) else {
+                    return Data()
+            }
+            return data
+        }
     }
     
     public var task: Task {

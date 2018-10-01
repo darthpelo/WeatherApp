@@ -56,8 +56,4 @@ final class TableViewDataSource<Model>: NSObject, UITableViewDataSource {
             delegate?.removeModel(at: indexPath.row)
         }
     }
-    
-    func cleanDataSource() {
-        models.removeAll()
-    }
 }
