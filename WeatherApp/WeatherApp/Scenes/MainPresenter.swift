@@ -6,8 +6,8 @@
 //  Copyright © 2018 Alessio Roberto. All rights reserved.
 //
 
-import GooglePlaces
 import Foundation
+import GooglePlaces
 import Moya
 import Unbox
 
@@ -25,11 +25,16 @@ protocol MainViewable: class {
 }
 
 final class MainPresenter: NSObject, MainPresentable {
-    weak private var view: MainViewable?
-    private var userDefaults: UserDefaults
+    weak internal var view: MainViewable?
     
-    init(view: MainViewable, userDefaults: UserDefaults = UserDefaults.standard) {
+    private var userDefaults: UserDefaults
+    private var provider: MoyaProvider<OpenWeather>
+    
+    init(view: MainViewable,
+         provider: MoyaProvider<OpenWeather> = openWeather,
+         userDefaults: UserDefaults = UserDefaults.standard) {
         self.view = view
+        self.provider = provider
         self.userDefaults = userDefaults
     }
     
@@ -80,7 +85,7 @@ final class MainPresenter: NSObject, MainPresentable {
     }
     
     // MARK: - Private
-    private func updateCitiesHistory(name: String) -> [CityWeatherLight] {
+    internal func updateCitiesHistory(name: String) -> [CityWeatherLight] {
         guard let data = userDefaults.searchHistory,
             let list = convertToCities(data) else {
                 let firstCity = CityWeatherLight(name: name, todayTemperature: 0)
@@ -99,7 +104,7 @@ final class MainPresenter: NSObject, MainPresentable {
         var newList = list
         var idx = 0
         for city in list {
-            openWeather.request(.weather(city: city.name)) { [weak self, idx] result in
+            provider.request(.weather(city: city.name)) { [weak self, idx] result in
                 guard let self = self else { return }
                 
                 switch result {
@@ -129,32 +134,5 @@ final class MainPresenter: NSObject, MainPresentable {
             }
             idx += 1
         }
-    }
-}
-
-extension MainPresenter: GMSAutocompleteViewControllerDelegate {
-    // Handle the user's selection.
-    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        view?.setDataSource(updateCitiesHistory(name: place.name))
-        view?.dismiss()
-    }
-    
-    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
-        print("Error: ", error.localizedDescription)
-        view?.dismiss()
-    }
-    
-    // User canceled the operation.
-    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
-        view?.dismiss()
-    }
-    
-    // Turn the network activity indicator on and off again.
-    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-    }
-    
-    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }

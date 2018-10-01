@@ -1,17 +1,18 @@
 //
-//  WeatherAppTests.swift
+//  MainPresenterTests.swift
 //  WeatherAppTests
 //
 //  Created by Alessio Roberto on 28/09/2018.
 //  Copyright © 2018 Alessio Roberto. All rights reserved.
 //
 
+import Moya
 import UIKit
 import XCTest
 
 @testable import WeatherApp
 
-class WeatherAppTests: XCTestCase {
+class MainPresenterTests: XCTestCase {
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -59,11 +60,34 @@ class WeatherAppTests: XCTestCase {
         
         XCTAssertEqual(result, "Milan")
     }
+    
+    func testSetupView() {
+        let stubProvider = MoyaProvider<OpenWeather>(stubClosure: MoyaProvider.immediatelyStub)
+        let mockView = MockMainViewController()
+        let mockUserDefaults = UserDefaults(suiteName: "test")!
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
+        let sut = MainPresenter(view: mockView, provider: stubProvider, userDefaults: mockUserDefaults)
+
+        mockUserDefaults.searchHistory = sut.convertToData([stubCity])
+        
+        sut.setupView()
+        
+        XCTAssertTrue(mockView.setDataSourceCalled)
+        
+        let result = sut.updateCitiesHistory(name: "Amsterdam")
+        XCTAssertEqual(result.count, 2)
+    }
 
 }
 
-final class MockMainViewController: UIViewController, MainViewable {
-    func setDataSource(_ cities: [CityWeatherLight]) {}
+private final class MockMainViewController: UIViewController, MainViewable {
+    var setDataSourceCallCount = 0
+    var setDataSourceCalled: Bool {
+        return setDataSourceCallCount > 0
+    }
+    func setDataSource(_ cities: [CityWeatherLight]) {
+        setDataSourceCallCount += 1
+    }
     
     var presentAutocompleteControllerCallCount = 0
     func presentAutocompleteController(_ autocompleteController: UIViewController) {
@@ -74,6 +98,4 @@ final class MockMainViewController: UIViewController, MainViewable {
     func dismiss() {
         dismissCallCount += 1
     }
-    
-    
 }

@@ -1,0 +1,4 @@
+- Pods
+- WeatherApp/Extensions
+- .*ViewCell.swift
+- .*GoogleExtensions.swift
