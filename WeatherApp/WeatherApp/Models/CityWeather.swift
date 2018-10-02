@@ -27,7 +27,7 @@ struct Main {
     let temp: Int
     let tempMin: Double
     let tempMax: Double
-    let pressure: Double
+    let pressure: Int
     let humidity: Int
 }
 
@@ -60,7 +60,7 @@ struct CityWeatherDetail {
     let temp: Int
     let tempMin: Double
     let tempMax: Double
-    let pressure: Double
+    let pressure: Int
     let humidity: Int
     
     init(main: Main) {
