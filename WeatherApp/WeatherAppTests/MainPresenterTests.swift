@@ -34,27 +34,29 @@ class MainPresenterTests: XCTestCase {
     func testDeleteCity() {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
+        let mockStorage = StorageService(userDefaults: mockUserDefaults)
         let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
         
-        let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
+        let sut = MainPresenter(view: mockView, storage: mockStorage)
         
-        mockUserDefaults.searchHistory = sut.convertToData([stubCity])
+        mockStorage.store(history: [stubCity])
         
         sut.removeCity(at: 0)
         
-        let result = sut.convertToCities(mockUserDefaults.searchHistory!)
+        let result = mockStorage.loadHistory()!
         
-        XCTAssertEqual(result!.count, 0)
+        XCTAssertEqual(result.count, 0)
     }
 
     func testGetCityName() {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
+        let mockStorage = StorageService(userDefaults: mockUserDefaults)
         let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
         
-        let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
+        let sut = MainPresenter(view: mockView, storage: mockStorage)
         
-        mockUserDefaults.searchHistory = sut.convertToData([stubCity])
+        mockStorage.store(history: [stubCity])
         
         let result = sut.getCityName(at: 0)
         
@@ -65,10 +67,11 @@ class MainPresenterTests: XCTestCase {
         let stubProvider = MoyaProvider<OpenWeather>(stubClosure: MoyaProvider.immediatelyStub)
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
+        let mockStorage = StorageService(userDefaults: mockUserDefaults)
         let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
-        let sut = MainPresenter(view: mockView, provider: stubProvider, userDefaults: mockUserDefaults)
+        let sut = MainPresenter(view: mockView, provider: stubProvider, storage: mockStorage)
 
-        mockUserDefaults.searchHistory = sut.convertToData([stubCity])
+        mockStorage.store(history: [stubCity])
         
         sut.setupView()
         

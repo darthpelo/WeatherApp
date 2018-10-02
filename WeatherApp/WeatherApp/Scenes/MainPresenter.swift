@@ -27,25 +27,26 @@ protocol MainViewable: class {
 final class MainPresenter: NSObject, MainPresentable {
     weak internal var view: MainViewable?
     
-    private var userDefaults: UserDefaults
+    private var storage: Storageable
     private var provider: MoyaProvider<OpenWeather>
     
     init(view: MainViewable,
          provider: MoyaProvider<OpenWeather> = openWeather,
-         userDefaults: UserDefaults = UserDefaults.standard) {
+         storage: Storageable = StorageService()) {
         self.view = view
         self.provider = provider
-        self.userDefaults = userDefaults
+        self.storage = storage
     }
     
     func setupView() {
-        guard let data = userDefaults.searchHistory,
-            let list = convertToCities(data) else {
-                view?.setDataSource([])
-                return
+        guard let list = storage.loadHistory() else {
+            view?.setDataSource([])
+            return
         }
-        reloadCitiesTemperature(list: list)
+        
         view?.setDataSource(list)
+        
+        updateCitiesHistoryTemperature()
     }
     
     func loadCitySearch() {
@@ -55,86 +56,97 @@ final class MainPresenter: NSObject, MainPresentable {
     }
     
     func removeCity(at index: Int) {
-        guard let data = userDefaults.searchHistory,
-            let list = convertToCities(data) else {
-                return
+        guard let list = storage.loadHistory() else {
+            return
         }
         
         var newList = list
         newList.remove(at: index)
-        userDefaults.searchHistory = convertToData(newList)
+        storage.store(history: newList)
     }
     
     func getCityName(at index: Int) -> (name: String, placeID: String)? {
-        guard let data = userDefaults.searchHistory,
-            let list = convertToCities(data) else {
-                return nil
+        guard let list = storage.loadHistory() else {
+            return nil
         }
         
         return (list[index].name, list[index].placeID)
     }
     
-    func convertToCities(_ data: Data) -> [CityWeatherLight]? {
-        let decoder = JSONDecoder()
-        return try? decoder.decode([CityWeatherLight].self, from: data)
-    }
-    
-    func convertToData<T: Equatable&Codable>(_ list: [T]) -> Data? {
-        let encoder = JSONEncoder()
-        return try? encoder.encode(list)
-    }
-    
     // MARK: - Private
     internal func updateCitiesHistory(name: String, placeID: String) -> [CityWeatherLight] {
-        guard let data = userDefaults.searchHistory,
-            let list = convertToCities(data) else {
-                let firstCity = CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID)
-                userDefaults.searchHistory = convertToData([firstCity])
-                return [firstCity]
+        guard let list = storage.loadHistory() else {
+            let firstCity = CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID)
+            storage.store(history: [firstCity])
+            return [firstCity]
         }
         
         var newList = list
+        
         newList.insert(CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID), at: 0)
-        reloadCitiesTemperature(list: newList)
-        userDefaults.searchHistory = convertToData(newList)
+        
+        storage.store(history: newList)
+        
+        updateCitiesHistoryTemperature()
+        
         return newList
     }
     
-    private func reloadCitiesTemperature(list: [CityWeatherLight]) {
+    private func updateCitiesHistoryTemperature() {
+        guard let list = storage.loadHistory() else { return }
+        
         var newList = list
         var idx = 0
+        
         for city in list {
             provider.request(.weather(city: city.name)) { [weak self, idx, city] result in
                 guard let self = self else { return }
                 
                 switch result {
                 case let .success(moyaResponse):
-                    do {
-                        let data = try moyaResponse.mapJSON()
-                        if let dictionary = data as? Dictionary<String, Any> {
-                            let item: CityWeather? = try? unbox(dictionary: dictionary)
-                            guard let temperature = item?.main.temp else {
-                                return
-                            }
-                            let newData = CityWeatherLight(name: city.name,
-                                                           todayTemperature: temperature,
-                                                           placeID: city.placeID)
-                            if city != newData {
-                                newList.remove(at: idx)
-                                newList.insert(newData, at: idx)
-                                self.view?.setDataSource(newList)
-                                self.userDefaults.searchHistory = self.convertToData(newList)
-                            }
-                        }
-                    } catch {
-                        
-                    }
+                    self.manageCitiesHistory(moyaResponse, &newList, city, cityIndex: idx)
                 case let .failure(error):
                     print("Error: ", error.localizedDescription)
                 }
-                
             }
             idx += 1
+        }
+    }
+    
+    private func manageCitiesHistory(_ moyaResponse: (Response),
+                                     _ newList: inout [CityWeatherLight],
+                                     _ city: CityWeatherLight,
+                                     cityIndex: Int) {
+        if let cityUpdate = makeCityWeatherLight(response: moyaResponse, city: city), city != cityUpdate {
+            newList.remove(at: cityIndex)
+            newList.insert(cityUpdate, at: cityIndex)
+            view?.setDataSource(newList)
+            
+            if cityIndex == (newList.count - 1) {
+                storage.store(history: newList)
+            }
+        }
+    }
+    
+    private func makeCityWeatherLight(response: Response, city: CityWeatherLight) -> CityWeatherLight? {
+        do {
+            let data = try response.mapJSON()
+            
+            guard let dictionary = data as? [String: Any] else {
+                return nil
+            }
+            
+            let item: CityWeather? = try? unbox(dictionary: dictionary)
+            
+            guard let temperature = item?.main.temp else {
+                return nil
+            }
+            
+            return CityWeatherLight(name: city.name,
+                                    todayTemperature: temperature,
+                                    placeID: city.placeID)
+        } catch {
+            return nil
         }
     }
 }
