@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
         if let identifier = segue.identifier, identifier == "ShowCityDetail",
             let detailVC = segue.destination as? CityDetailViewController,
             let idx = tableView.indexPathForSelectedRow?.row {
-            detailVC.cityName = presenter.getCityName(at: idx)
+            detailVC.city = presenter.getCityName(at: idx)
         }
     }
     

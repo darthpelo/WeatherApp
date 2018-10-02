@@ -192,11 +192,11 @@
 		D9EBCAA3215FD8EB0087AF93 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				D9F0A33E2162BE9300E17392 /* MainPresenterGoogleExtensions.swift */,
 				D9F0A32F2162275100E17392 /* MainViewControllerExtensions.swift */,
 				D9F0A3312162301800E17392 /* TableViewDataSourceExtensions.swift */,
 				D9F0A333216232C700E17392 /* UIImageViewExtensions.swift */,
 				D9EBCAA4215FD8F70087AF93 /* UserDefaults.swift */,
-				D9F0A33E2162BE9300E17392 /* MainPresenterGoogleExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";

@@ -27,7 +27,7 @@ struct Main {
     let temp: Int
     let tempMin: Double
     let tempMax: Double
-    let pressure: Double
+    let pressure: Int
     let humidity: Int
 }
 
@@ -44,13 +44,15 @@ extension Main: Unboxable {
 struct CityWeatherLight: Codable {
     let name: String
     let todayTemperature: Int
+    let placeID: String
 }
 
 extension CityWeatherLight: Equatable {
     static func == (lhs: CityWeatherLight, rhs: CityWeatherLight) -> Bool {
         return
             lhs.name == rhs.name &&
-                lhs.todayTemperature == rhs.todayTemperature
+                lhs.todayTemperature == rhs.todayTemperature &&
+                lhs.placeID == rhs.placeID
     }
 }
 
@@ -58,7 +60,7 @@ struct CityWeatherDetail {
     let temp: Int
     let tempMin: Double
     let tempMax: Double
-    let pressure: Double
+    let pressure: Int
     let humidity: Int
     
     init(main: Main) {

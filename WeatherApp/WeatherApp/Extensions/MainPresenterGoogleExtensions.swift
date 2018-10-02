@@ -12,7 +12,7 @@ import GooglePlaces
 extension MainPresenter: GMSAutocompleteViewControllerDelegate {
     // Handle the user's selection.
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        view?.setDataSource(updateCitiesHistory(name: place.name))
+        view?.setDataSource(updateCitiesHistory(name: place.name, placeID: place.placeID))
         view?.dismiss()
     }
     
