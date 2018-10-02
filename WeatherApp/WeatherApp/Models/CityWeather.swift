@@ -44,13 +44,15 @@ extension Main: Unboxable {
 struct CityWeatherLight: Codable {
     let name: String
     let todayTemperature: Int
+    let placeID: String
 }
 
 extension CityWeatherLight: Equatable {
     static func == (lhs: CityWeatherLight, rhs: CityWeatherLight) -> Bool {
         return
             lhs.name == rhs.name &&
-                lhs.todayTemperature == rhs.todayTemperature
+                lhs.todayTemperature == rhs.todayTemperature &&
+                lhs.placeID == rhs.placeID
     }
 }
 

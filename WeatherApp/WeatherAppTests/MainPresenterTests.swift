@@ -34,7 +34,7 @@ class MainPresenterTests: XCTestCase {
     func testDeleteCity() {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
         
         let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
         
@@ -50,7 +50,7 @@ class MainPresenterTests: XCTestCase {
     func testGetCityName() {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
         
         let sut = MainPresenter(view: mockView, userDefaults: mockUserDefaults)
         
@@ -58,14 +58,14 @@ class MainPresenterTests: XCTestCase {
         
         let result = sut.getCityName(at: 0)
         
-        XCTAssertEqual(result, "Milan")
+        XCTAssertEqual(result?.name, "Milan")
     }
     
     func testSetupView() {
         let stubProvider = MoyaProvider<OpenWeather>(stubClosure: MoyaProvider.immediatelyStub)
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23)
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
         let sut = MainPresenter(view: mockView, provider: stubProvider, userDefaults: mockUserDefaults)
 
         mockUserDefaults.searchHistory = sut.convertToData([stubCity])
@@ -74,7 +74,7 @@ class MainPresenterTests: XCTestCase {
         
         XCTAssertTrue(mockView.setDataSourceCalled)
         
-        let result = sut.updateCitiesHistory(name: "Amsterdam")
+        let result = sut.updateCitiesHistory(name: "Amsterdam", placeID: "")
         XCTAssertEqual(result.count, 2)
     }
 

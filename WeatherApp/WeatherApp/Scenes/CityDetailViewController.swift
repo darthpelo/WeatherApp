@@ -6,6 +6,7 @@
 //  Copyright © 2018 Alessio Roberto. All rights reserved.
 //
 
+import GooglePlaces
 import UIKit
 
 class CityDetailViewController: UIViewController {
@@ -15,8 +16,9 @@ class CityDetailViewController: UIViewController {
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
-    var cityName: String?
+    var city: (name: String, placeID: String)?
     lazy var presenter: CityDetailPresentable = CityDetailPresenter(view: self)
     private var dataSource: TableViewDataSource<DayForecastLight>?
     
@@ -24,7 +26,7 @@ class CityDetailViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.title = cityName
+        self.title = city?.name
         
         dayForecastDidLoad([])
     }
@@ -32,9 +34,10 @@ class CityDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let city = cityName else { return }
+        guard let city = city else { return }
         
-        presenter.setupUI(withCity: city)
+        loadFirstPhotoForPlace(placeID: city.placeID)
+        presenter.setupUI(withCity: city.name)
     }
     
     // MARK: - Private
@@ -46,6 +49,34 @@ class CityDetailViewController: UIViewController {
             guard let self = self else { return }
             self.tableView.reloadData()
         }
+    }
+    
+    func loadFirstPhotoForPlace(placeID: String) {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.localizedDescription)")
+            } else {
+                if let firstPhoto = photos?.results.first {
+                    self.loadImageForMetadata(photoMetadata: firstPhoto)
+                }
+            }
+        }
+    }
+    
+    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { [weak self]
+            (photo, error) -> Void in
+            guard let self = self else { return }
+            
+            if let error = error {
+                // TODO: handle the error.
+                print("Error: \(error.localizedDescription)")
+            } else {
+                self.backgroundImage.image = photo
+//                self.attributionTextView.attributedText = photoMetadata.attributions;
+            }
+        })
     }
 }
 

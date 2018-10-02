@@ -15,7 +15,7 @@ protocol MainPresentable: class {
     func setupView()
     func loadCitySearch()
     func removeCity(at index: Int)
-    func getCityName(at index: Int) -> String?
+    func getCityName(at index: Int) -> (name: String, placeID: String)?
 }
 
 protocol MainViewable: class {
@@ -65,13 +65,13 @@ final class MainPresenter: NSObject, MainPresentable {
         userDefaults.searchHistory = convertToData(newList)
     }
     
-    func getCityName(at index: Int) -> String? {
+    func getCityName(at index: Int) -> (name: String, placeID: String)? {
         guard let data = userDefaults.searchHistory,
             let list = convertToCities(data) else {
                 return nil
         }
         
-        return list[index].name
+        return (list[index].name, list[index].placeID)
     }
     
     func convertToCities(_ data: Data) -> [CityWeatherLight]? {
@@ -85,16 +85,16 @@ final class MainPresenter: NSObject, MainPresentable {
     }
     
     // MARK: - Private
-    internal func updateCitiesHistory(name: String) -> [CityWeatherLight] {
+    internal func updateCitiesHistory(name: String, placeID: String) -> [CityWeatherLight] {
         guard let data = userDefaults.searchHistory,
             let list = convertToCities(data) else {
-                let firstCity = CityWeatherLight(name: name, todayTemperature: 0)
+                let firstCity = CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID)
                 userDefaults.searchHistory = convertToData([firstCity])
                 return [firstCity]
         }
         
         var newList = list
-        newList.insert(CityWeatherLight(name: name, todayTemperature: 0), at: 0)
+        newList.insert(CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID), at: 0)
         reloadCitiesTemperature(list: newList)
         userDefaults.searchHistory = convertToData(newList)
         return newList
@@ -104,7 +104,7 @@ final class MainPresenter: NSObject, MainPresentable {
         var newList = list
         var idx = 0
         for city in list {
-            provider.request(.weather(city: city.name)) { [weak self, idx] result in
+            provider.request(.weather(city: city.name)) { [weak self, idx, city] result in
                 guard let self = self else { return }
                 
                 switch result {
@@ -113,10 +113,12 @@ final class MainPresenter: NSObject, MainPresentable {
                         let data = try moyaResponse.mapJSON()
                         if let dictionary = data as? Dictionary<String, Any> {
                             let item: CityWeather? = try? unbox(dictionary: dictionary)
-                            guard let name = item?.name, let temperature = item?.main.temp else {
+                            guard let temperature = item?.main.temp else {
                                 return
                             }
-                            let newData = CityWeatherLight(name: name, todayTemperature: temperature)
+                            let newData = CityWeatherLight(name: city.name,
+                                                           todayTemperature: temperature,
+                                                           placeID: city.placeID)
                             if city != newData {
                                 newList.remove(at: idx)
                                 newList.insert(newData, at: idx)
