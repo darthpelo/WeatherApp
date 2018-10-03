@@ -23,11 +23,16 @@ protocol CityDetailView: class {
 
 final class CityDetailPresenter: NSObject, CityDetailPresentable {
     weak private var view: CityDetailView?
-    private var provider: MoyaProvider<OpenWeather>
     
-    init(view: CityDetailView, provider: MoyaProvider<OpenWeather> = openWeather) {
+    private var provider: MoyaProvider<OpenWeather>
+    private var places: GMSPlacesClient
+    
+    init(view: CityDetailView,
+         provider: MoyaProvider<OpenWeather> = openWeather,
+         googleClient: GMSPlacesClient = GMSPlacesClient.shared()) {
         self.view = view
         self.provider = provider
+        self.places = googleClient
     }
     
     func setupUI(withCity city: String) {
@@ -44,7 +49,7 @@ final class CityDetailPresenter: NSObject, CityDetailPresentable {
     }
     
     func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { photos, error -> Void in
+        places.lookUpPhotos(forPlaceID: placeID) { photos, error -> Void in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             } else {
@@ -88,8 +93,7 @@ final class CityDetailPresenter: NSObject, CityDetailPresentable {
     }
     
     private  func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { [weak self]
-            photo, error -> Void in
+        places.loadPlacePhoto(photoMetadata, callback: { [weak self] photo, error -> Void in
             guard let self = self else { return }
             
             if let error = error {
