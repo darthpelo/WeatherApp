@@ -6,7 +6,6 @@
 //  Copyright © 2018 Alessio Roberto. All rights reserved.
 //
 
-import GooglePlaces
 import UIKit
 
 class CityDetailViewController: UIViewController {
@@ -36,7 +35,7 @@ class CityDetailViewController: UIViewController {
         
         guard let city = city else { return }
         
-        loadFirstPhotoForPlace(placeID: city.placeID)
+        presenter.loadFirstPhotoForPlace(placeID: city.placeID)
         presenter.setupUI(withCity: city.name)
     }
     
@@ -50,37 +49,13 @@ class CityDetailViewController: UIViewController {
             self.tableView.reloadData()
         }
     }
-    
-    func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto)
-                }
-            }
-        }
-    }
-    
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { [weak self]
-            (photo, error) -> Void in
-            guard let self = self else { return }
-            
-            if let error = error {
-                // TODO: handle the error.
-                print("Error: \(error.localizedDescription)")
-            } else {
-                self.backgroundImage.image = photo
-//                self.attributionTextView.attributedText = photoMetadata.attributions;
-            }
-        })
-    }
 }
 
 extension CityDetailViewController: CityDetailView {
+    func updateBackgroundImage(with image: UIImage?) {
+        backgroundImage.image = image
+    }
+    
     func updateForecast(with forecast: [DayForecastLight]) {
         dayForecastDidLoad(forecast)
     }

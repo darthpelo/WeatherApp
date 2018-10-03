@@ -6,16 +6,19 @@
 //  Copyright © 2018 Alessio Roberto. All rights reserved.
 //
 
+import GooglePlaces
 import Moya
 import Unbox
 
 protocol CityDetailPresentable: class {
     func setupUI(withCity city: String)
+    func loadFirstPhotoForPlace(placeID: String)
 }
 
 protocol CityDetailView: class {
     func updateTopView(with weather: CityWeatherDetail)
     func updateForecast(with forecast: [DayForecastLight])
+    func updateBackgroundImage(with image: UIImage?)
 }
 
 final class CityDetailPresenter: NSObject, CityDetailPresentable {
@@ -36,6 +39,18 @@ final class CityDetailPresenter: NSObject, CityDetailPresentable {
                 self.prepareData(moyaResponse)
             case let .failure(error):
                 print("Error: ", error.localizedDescription)
+            }
+        }
+    }
+    
+    func loadFirstPhotoForPlace(placeID: String) {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { photos, error -> Void in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                if let firstPhoto = photos?.results.first {
+                    self.loadImageForMetadata(photoMetadata: firstPhoto)
+                }
             }
         }
     }
@@ -70,5 +85,18 @@ final class CityDetailPresenter: NSObject, CityDetailPresentable {
             dataSource.append(light)
         }
         view?.updateForecast(with: dataSource)
+    }
+    
+    private  func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, callback: { [weak self]
+            photo, error -> Void in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                self.view?.updateBackgroundImage(with: photo)
+            }
+        })
     }
 }
