@@ -57,3 +57,42 @@ final class TableViewDataSource<Model>: NSObject, UITableViewDataSource {
         }
     }
 }
+
+extension TableViewDataSource where Model == CityWeatherLight {
+    static func make(for cities: [CityWeatherLight],
+                     reuseIdentifier: String = "CityCell") -> TableViewDataSource {
+        return TableViewDataSource(
+            models: cities,
+            reuseIdentifier: reuseIdentifier
+        ) { city, cell in
+            guard let cityCell = cell as? CityTableViewCell else {
+                return
+            }
+            
+            cityCell.cityNameLabel.text = city.name
+            cityCell.temperatureLabel.text = "\(city.todayTemperature) ℃"
+            cityCell.iconImage.load(url: URL(string: "http://openweathermap.org/img/w/\(city.icon ?? "").png")!) // swiftlint:disable:this force_unwrapping
+        }
+    }
+}
+
+extension TableViewDataSource where Model == DayForecastLight {
+    static func make(for days: [DayForecastLight],
+                     reuseIdentifier: String = "DayCell") -> TableViewDataSource {
+        return TableViewDataSource(
+            models: days,
+            reuseIdentifier: reuseIdentifier
+        ) { day, cell in
+            guard let dayCell = cell as? DayTableViewCell else {
+                return
+            }
+            
+            let date = DateFormatter.localizedString(from: Date(timeIntervalSince1970: day.timeStamp),
+                                                     dateStyle: .medium,
+                                                     timeStyle: .short)
+            dayCell.dateLabel.text = date
+            dayCell.temperatureLabel.text = "\(day.temperature) ℃"
+            dayCell.iconImageView.load(url: URL(string: "http://openweathermap.org/img/w/\(day.icon).png")!) // swiftlint:disable:this force_unwrapping
+        }
+    }
+}
