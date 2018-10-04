@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4C3C87C42164041C008D2240 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3C87C32164041C008D2240 /* StorageService.swift */; };
+		4C3C87C821661A62008D2240 /* CityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3C87C721661A62008D2240 /* CityTableViewCell.swift */; };
 		72122D4EC623EA99CFE5ABDB /* libPods-WeatherApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DC08C5E70C8942C0EA06A4 /* libPods-WeatherApp.a */; };
 		C87F7D661E0ACC41DAD9696A /* libPods-WeatherApp-WeatherAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70522B4E0D00F5D32C3EAA26 /* libPods-WeatherApp-WeatherAppTests.a */; };
 		D9D305DE215E551200DE5FFB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9D305DD215E551200DE5FFB /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 		2286EFE72B349A156A74DDC1 /* Pods-WeatherApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp/Pods-WeatherApp.debug.xcconfig"; sourceTree = "<group>"; };
 		48CF7BFA694701A80686B437 /* Pods-WeatherApp-WeatherAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-WeatherAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp-WeatherAppTests/Pods-WeatherApp-WeatherAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		4C3C87C32164041C008D2240 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		4C3C87C721661A62008D2240 /* CityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityTableViewCell.swift; sourceTree = "<group>"; };
 		70522B4E0D00F5D32C3EAA26 /* libPods-WeatherApp-WeatherAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApp-WeatherAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71DC08C5E70C8942C0EA06A4 /* libPods-WeatherApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1D1CC23B613D42B96DE6AD1 /* Pods-WeatherApp-WeatherAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApp-WeatherAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WeatherApp-WeatherAppTests/Pods-WeatherApp-WeatherAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				D9F0A33621623E2300E17392 /* DayTableViewCell.swift */,
+				4C3C87C721661A62008D2240 /* CityTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 			files = (
 				D9F0A334216232C700E17392 /* UIImageViewExtensions.swift in Sources */,
 				D9EBCAB621613A3C0087AF93 /* CityDetailPresenter.swift in Sources */,
+				4C3C87C821661A62008D2240 /* CityTableViewCell.swift in Sources */,
 				D9D305DE215E551200DE5FFB /* AppDelegate.swift in Sources */,
 				D9EBCAA5215FD8F70087AF93 /* UserDefaults.swift in Sources */,
 				4C3C87C42164041C008D2240 /* StorageService.swift in Sources */,
@@ -615,15 +619,17 @@
 			baseConfigurationReference = 2286EFE72B349A156A74DDC1 /* Pods-WeatherApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6NX9CC2PVJ;
+				DEVELOPMENT_TEAM = GK5S624D99;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.alessioroberto.WeatherApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alessioroberto.demo.weatherapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -634,15 +640,17 @@
 			baseConfigurationReference = F9CD8323DC3D24F1B34F5582 /* Pods-WeatherApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6NX9CC2PVJ;
+				DEVELOPMENT_TEAM = GK5S624D99;
 				INFOPLIST_FILE = WeatherApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.alessioroberto.WeatherApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.alessioroberto.demo.weatherapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

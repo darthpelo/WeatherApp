@@ -35,7 +35,7 @@ class MainPresenterTests: XCTestCase {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
         let mockStorage = StorageService(userDefaults: mockUserDefaults)
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, icon: nil, placeID: "")
         
         let sut = MainPresenter(view: mockView, storage: mockStorage)
         
@@ -52,7 +52,7 @@ class MainPresenterTests: XCTestCase {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
         let mockStorage = StorageService(userDefaults: mockUserDefaults)
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, icon: nil, placeID: "")
         
         let sut = MainPresenter(view: mockView, storage: mockStorage)
         
@@ -68,7 +68,7 @@ class MainPresenterTests: XCTestCase {
         let mockView = MockMainViewController()
         let mockUserDefaults = UserDefaults(suiteName: "test")!
         let mockStorage = StorageService(userDefaults: mockUserDefaults)
-        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, placeID: "")
+        let stubCity = CityWeatherLight(name: "Milan", todayTemperature: 23, icon: nil, placeID: "")
         let sut = MainPresenter(view: mockView, provider: stubProvider, storage: mockStorage)
 
         mockStorage.store(history: [stubCity])

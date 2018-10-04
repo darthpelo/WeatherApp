@@ -13,6 +13,7 @@ struct CityWeather {
     let id: Int
     let name: String
     let main: Main
+    let weather: [Weather]
 }
 
 extension CityWeather: Unboxable {
@@ -20,6 +21,7 @@ extension CityWeather: Unboxable {
         self.id = try unboxer.unbox(key: "id")
         self.name = try unboxer.unbox(key: "name")
         self.main = try unboxer.unbox(key: "main")
+        self.weather = try unboxer.unbox(key: "weather")
     }
 }
 
@@ -44,6 +46,7 @@ extension Main: Unboxable {
 struct CityWeatherLight: Codable {
     let name: String
     let todayTemperature: Int
+    let icon: String?
     let placeID: String
 }
 
@@ -52,6 +55,7 @@ extension CityWeatherLight: Equatable {
         return
             lhs.name == rhs.name &&
                 lhs.todayTemperature == rhs.todayTemperature &&
+                lhs.icon == rhs.icon &&
                 lhs.placeID == rhs.placeID
     }
 }

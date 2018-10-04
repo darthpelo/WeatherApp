@@ -76,14 +76,14 @@ final class MainPresenter: NSObject, MainPresentable {
     // MARK: - Private
     internal func updateCitiesHistory(name: String, placeID: String) -> [CityWeatherLight] {
         guard let list = storage.loadHistory() else {
-            let firstCity = CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID)
+            let firstCity = CityWeatherLight(name: name, todayTemperature: 0, icon: nil, placeID: placeID)
             storage.store(history: [firstCity])
             return [firstCity]
         }
         
         var newList = list
         
-        newList.insert(CityWeatherLight(name: name, todayTemperature: 0, placeID: placeID), at: 0)
+        newList.insert(CityWeatherLight(name: name, todayTemperature: 0, icon: nil, placeID: placeID), at: 0)
         
         storage.store(history: newList)
         
@@ -117,14 +117,12 @@ final class MainPresenter: NSObject, MainPresentable {
                                      _ newList: inout [CityWeatherLight],
                                      _ city: CityWeatherLight,
                                      cityIndex: Int) {
-        if let cityUpdate = makeCityWeatherLight(response: moyaResponse, city: city), city != cityUpdate {
+        if let cityUpdate = makeCityWeatherLight(response: moyaResponse, city: city) {
             newList.remove(at: cityIndex)
             newList.insert(cityUpdate, at: cityIndex)
             view?.setDataSource(newList)
             
-            if cityIndex == (newList.count - 1) {
-                storage.store(history: newList)
-            }
+            storage.store(history: newList)
         }
     }
     
@@ -144,6 +142,7 @@ final class MainPresenter: NSObject, MainPresentable {
             
             return CityWeatherLight(name: city.name,
                                     todayTemperature: temperature,
+                                    icon: item?.weather.first?.icon,
                                     placeID: city.placeID)
         } catch {
             return nil
